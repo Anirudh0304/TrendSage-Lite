@@ -62,36 +62,23 @@ pip install -r requirements.txt
 # Download required NLP models
 python -m nltk.downloader vader_lexicon
 python -m spacy download en_core_web_sm
+```
+---
 
-🧠 Core Modules Explained
-| Module                | Description                                             |
-| --------------------- | ------------------------------------------------------- |
-| `news.py`             | Pulls news data from APIs or datasets                   |
-| `extract.py`          | Preprocesses, cleans, and analyzes news data            |
-| `analyse.py`          | Runs sentiment and country/entity extraction pipelines  |
-| `country.py`          | Maps named entities to standardized country codes       |
-| `entities.py`         | Performs Named Entity Recognition (NER) focused on GPEs |
-| `extract_keywords.py` | Extracts keywords/topics from news headlines            |
-| `streamlit.py`        | Implements the Streamlit UI and visualization logic     |
-───────────────────────────────────────────────────────────────────────────────────
+## 📂 Execution Order
 
-
-📂 Execution Order
 To ensure proper data flow between modules, run the scripts in this order:
 
-news.py – Fetches global news headlines
+1. `news.py` – Fetches global news headlines  
+2. `analyse.py` – Performs sentiment analysis  
+3. `extract_keywords.py` – Extracts significant keywords  
+4. `entities.py` – Identifies named entities (GPEs, Orgs)  
+5. `country.py` – Matches entities to country names and codes  
+6. `streamlit.py` – Runs the interactive visualization dashboard
 
-analyse.py – Performs sentiment analysis
+---
 
-extract_keywords.py – Extracts significant keywords
+## 💻 Running the Dashboard
 
-entities.py – Identifies named entities (GPEs, Orgs)
-
-country.py – Matches entities to country names and codes
-
-streamlit.py – Runs the interactive visualization dashboard
-
-
-💻 Running the Dashboard
-
+```bash
 streamlit run streamlit.py
