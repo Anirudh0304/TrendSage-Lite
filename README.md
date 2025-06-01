@@ -5,7 +5,7 @@
 ---
 
 ## 📁 Project Structure
-
+```
 SUPPLYCHAIN/
 │
 ├── output/ # Folder for storing generated outputs like CSVs or logs
@@ -18,7 +18,7 @@ SUPPLYCHAIN/
 ├── extract_keywords.py # Extracts keywords/topics from headlines
 ├── news.py # News scraping logic or API integration
 ├── streamlit.py # Main dashboard UI (Streamlit app)
-
+```
 
 ---
 
