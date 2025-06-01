@@ -59,6 +59,9 @@ source venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
+# Download required NLP models
+python -m nltk.downloader vader_lexicon
+python -m spacy download en_core_web_sm
 
 🧠 Core Modules Explained
 | Module                | Description                                             |
@@ -70,3 +73,25 @@ pip install -r requirements.txt
 | `entities.py`         | Performs Named Entity Recognition (NER) focused on GPEs |
 | `extract_keywords.py` | Extracts keywords/topics from news headlines            |
 | `streamlit.py`        | Implements the Streamlit UI and visualization logic     |
+───────────────────────────────────────────────────────────────────────────────────
+
+
+📂 Execution Order
+To ensure proper data flow between modules, run the scripts in this order:
+
+news.py – Fetches global news headlines
+
+analyse.py – Performs sentiment analysis
+
+extract_keywords.py – Extracts significant keywords
+
+entities.py – Identifies named entities (GPEs, Orgs)
+
+country.py – Matches entities to country names and codes
+
+streamlit.py – Runs the interactive visualization dashboard
+
+
+💻 Running the Dashboard
+
+streamlit run streamlit.py

@@ -2,8 +2,8 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-API_KEY = 'f8995c41d39e4487bad4fec01a7d3c45'
-response = requests.get("https://newsapi.org/v2/everything?q=tesla&from=2025-04-30&sortBy=publishedAt&apiKey=f8995c41d39e4487bad4fec01a7d3c45")
+API_KEY = 'your_api_key'
+response = requests.get(f"https://newsapi.org/v2/everything?q=tesla&from=2025-05-01&sortBy=publishedAt&apiKey={API_KEY}")
 
 if response.status_code == 200:
     data = response.json()

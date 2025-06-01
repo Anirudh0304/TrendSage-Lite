@@ -6,17 +6,14 @@ import ast
 
 today = datetime.now().strftime("%Y-%m-%d")
 
-# ----------------------------
 # Page Configuration
-# ----------------------------
+
 st.set_page_config(
     page_title="📊 TrendSage Lite Dashboard",
     layout="wide",
 )
 
-# ----------------------------
 # Load and Cache the Data
-# ----------------------------
 @st.cache_data
 def load_data():
     path = f"output/news_keywords_spacy_{today}_ner_with_countries.csv"
@@ -26,9 +23,8 @@ def load_data():
 
 df = load_data()
 
-# ----------------------------
-# Sidebar - Filters (No Date Filter)
-# ----------------------------
+# Sidebar - Filters
+
 st.sidebar.header("🔍 Filter News")
 
 # Unique countries from 'countries' column
@@ -62,9 +58,8 @@ filtered_df = df[
     df['countries_list'].apply(lambda x: any(c in selected_countries for c in x))
 ]
 
-# ----------------------------
 # Dashboard Title and KPIs
-# ----------------------------
+
 st.title("📡 TrendSage Lite – Global Event & Sentiment Tracker")
 st.markdown("Visualize global news sentiment and trends interactively.")
 
@@ -73,10 +68,7 @@ col1, col2 = st.columns(2)
 col1.metric("📰 Headlines", len(filtered_df))
 col2.metric("📍 Countries", len(selected_countries))
 
-# ----------------------------
 # Choropleth Map Section
-# ----------------------------
-
 # Explode filtered_df on 'countries_list' to one country per row
 df_exploded = filtered_df.explode('countries_list')
 
@@ -108,9 +100,7 @@ fig.update_layout(
 
 st.plotly_chart(fig, use_container_width=True)
 
-# ----------------------------
 # Country-wise Headlines Table
-# ----------------------------
 st.subheader("🌐 Country-wise Headlines")
 
 for country in selected_countries:
@@ -122,9 +112,7 @@ for country in selected_countries:
                 use_container_width=True
             )
 
-# ----------------------------
 # Export Option
-# ----------------------------
 st.subheader("📦 Export Filtered Data")
 st.download_button(
     label="📥 Download as CSV",

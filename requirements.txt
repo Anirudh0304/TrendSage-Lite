@@ -1,0 +1,8 @@
+pandas
+nltk
+spacy
+pycountry
+thefuzz
+requests
+streamlit
+plotly

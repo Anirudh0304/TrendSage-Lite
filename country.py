@@ -4,22 +4,13 @@ from datetime import datetime
 import pycountry
 from thefuzz import fuzz
 
-# ----------------------------
-# Step 1: Load today's file
-# ----------------------------
 today = datetime.now().strftime("%Y-%m-%d")
 df = pd.read_csv(f"output/news_keywords_spacy_{today}_ner.csv")
 
-# ----------------------------
-# Step 2: Convert 'named_entities' to list of tuples
-# ----------------------------
 df['named_entities'] = df['named_entities'].apply(
     lambda x: ast.literal_eval(x) if isinstance(x, str) else []
 )
 
-# ----------------------------
-# Step 3: Build helpers
-# ----------------------------
 # Alternate ambiguous country names
 alt_names = {
     "U.S.": "United States",
@@ -40,9 +31,6 @@ for c in pycountry.countries:
     if hasattr(c, 'demonym'):
         demonym_map[c.demonym.lower()] = c.name
 
-# ----------------------------
-# Step 4: Detect countries (returns dicts with ISO codes)
-# ----------------------------
 def detect_countries(named_entities):
     matches = []
     seen = set()
@@ -73,8 +61,7 @@ def detect_countries(named_entities):
                     seen.add(country.name)
             except LookupError:
                 continue
-
-        # Match NORP demonyms (e.g., "British")
+        
         if label == "NORP" and norm_text.lower() in demonym_map:
             try:
                 country = pycountry.countries.lookup(demonym_map[norm_text.lower()])
@@ -90,21 +77,12 @@ def detect_countries(named_entities):
 
     return matches
 
-# ----------------------------
-# Step 5: Apply to DataFrame
-# ----------------------------
 df['countries'] = df['named_entities'].apply(detect_countries)
 
-# ----------------------------
-# Step 6: Log titles with countries (optional)
-# ----------------------------
 for _, row in df.iterrows():
     if row['countries']:
         print(f"🗺️ {row['title'][:60]} ➜ {[c['name'] for c in row['countries']]}")
 
-# ----------------------------
-# Step 7: Save result
-# ----------------------------
 output_path = f"output/news_keywords_spacy_{today}_ner_with_countries.csv"
 df.to_csv(output_path, index=False)
 print(f"✅ Done — saved with ISO codes at: {output_path}")
